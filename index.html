@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Cá Nhân</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="floating-shapes">
+            <div class="shape" style="width: 60px; height: 60px; background: linear-gradient(45deg, #ff6b6b, #4ecdc4); border-radius: 50%;"></div>
+            <div class="shape" style="width: 40px; height: 40px; background: linear-gradient(45deg, #45b7d1, #96ceb4); border-radius: 20%;"></div>
+            <div class="shape" style="width: 50px; height: 50px; background: linear-gradient(45deg, #667eea, #764ba2); transform: rotate(45deg);"></div>
+        </div>
+
+        <div class="avatar" onclick="changeAvatar()">
+            <img src="https://scontent.fdad3-4.fna.fbcdn.net/v/t39.30808-1/320927222_537667785071618_2976620750388025873_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=104&ccb=1-7&_nc_sid=e99d92&_nc_ohc=YIXkQuyULWUQ7kNvwGifW8D&_nc_oc=AdkVk-5yG2llGFF2KoDlPUbdggrdi2jFA6Fpi_oZKBMuROU8U6IX8FdRDvy61E35agA&_nc_zt=24&_nc_ht=scontent.fdad3-4.fna&_nc_gid=gVqyAuXqn2l7w4YjduZzQQ&oh=00_AfK3cZIscH_DajypPfcTi5w8XyCAj8k66qi2CF80cSKCPA&oe=68458CDD" alt="Avatar" id="avatarImage">
+        </div>
+
+        <h1 id="studentName">Nhật Thông</h1>
+
+        <div class="info-card" onclick="animateCard(this)">
+            <div class="info-label">Lớp & Chuyên ngành</div>
+            <div class="info-value" id="className">22ITe - Công Nghệ Thông Tin</div>
+        </div>
+
+        <div class="info-card" onclick="animateCard(this)">
+            <div class="info-label">Mã sinh viên</div>
+            <div class="info-value" id="studentId">22IT.EB075</div>
+        </div>
+
+        <div class="info-card" onclick="animateCard(this)">
+            <div class="info-label">Khoa</div>
+            <div class="info-value" id="faculty">Khoa học máy tính</div>
+        </div>
+
+        <div class="social-links">
+            <a href="https://www.facebook.com/nhatthong197" class="social-btn" title="Facebook">📘</a>
+            <a href="#" class="social-btn" title="Instagram">📷</a>
+            <a href="nhatthong432@gmail.com" class="social-btn" title="Email">📧</a>
+            <a href="https://github.com/NhatThong0" class="social-btn" title="GitHub">🐱</a>
+            
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
