@@ -179,6 +179,16 @@ h1 {
     box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
 }
 
+.social-btn i {
+    font-size: 24px;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.social-btn:hover i {
+    color: #007bff;
+}
+
 .floating-shapes {
     position: absolute;
     top: 0;
