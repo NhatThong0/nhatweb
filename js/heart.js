@@ -1,56 +1,52 @@
-const container = document.getElementById('heart-container');
+const scene = document.getElementById('scene');
+const total = 300; // số lượng dấu chấm
+let angle = 0;
 
-function createHeart(x, y) {
-  const heart = document.createElement('div');
-  heart.classList.add('heart');
-  heart.style.left = x + 'px';
-  heart.style.top = y + 'px';
-  container.appendChild(heart);
+// Hàm tạo vị trí hình trái tim 3D theo công thức tham số
+function heartFunction3D(t) {
+  const x = 16 * Math.pow(Math.sin(t), 3);
+  const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t)
+            - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+  const z = Math.sin(t * 3) * 5;
+  return { x, y, z };
+}
 
-  // Tạo hiệu ứng nổ trái tim
-  heart.addEventListener('click', () => {
-    explodeHeart(x + 10, y + 10); // Tâm của trái tim
-    heart.remove();
+// Tạo các particle
+const particles = [];
+for (let i = 0; i < total; i++) {
+  const t = (i / total) * 2 * Math.PI;
+  const { x, y, z } = heartFunction3D(t);
+
+  const particle = document.createElement('div');
+  particle.className = 'particle';
+
+  // Lưu vị trí gốc
+  particle.dataset.x = x;
+  particle.dataset.y = y;
+  particle.dataset.z = z;
+
+  scene.appendChild(particle);
+  particles.push(particle);
+}
+
+// Hàm render xoay trái tim
+function animate() {
+  angle += 0.01; // tăng góc để quay từ từ
+
+  particles.forEach(p => {
+    const x = parseFloat(p.dataset.x);
+    const y = parseFloat(p.dataset.y);
+    const z = parseFloat(p.dataset.z);
+
+    // Xoay điểm quanh trục Y
+    const rotatedX = x * Math.cos(angle) - z * Math.sin(angle);
+    const rotatedZ = x * Math.sin(angle) + z * Math.cos(angle);
+
+    // Scale và vẽ
+    p.style.transform = `translate3d(${rotatedX * 10}px, ${-y * 10}px, ${rotatedZ * 10}px)`;
   });
 
-  setTimeout(() => {
-    if (heart.parentNode) heart.remove();
-  }, 5000);
+  requestAnimationFrame(animate);
 }
 
-// Tạo particles theo hình trái tim
-function explodeHeart(cx, cy) {
-  const numParticles = 30;
-  for (let i = 0; i < numParticles; i++) {
-    const t = (Math.PI * 2 * i) / numParticles;
-
-    // Parametric heart curve
-    const x = 16 * Math.pow(Math.sin(t), 3);
-    const y =
-      13 * Math.cos(t) -
-      5 * Math.cos(2 * t) -
-      2 * Math.cos(3 * t) -
-      Math.cos(4 * t);
-
-    const particle = document.createElement('div');
-    particle.classList.add('particle');
-
-    particle.style.left = cx + 'px';
-    particle.style.top = cy + 'px';
-
-    // scale for visual effect
-    particle.style.setProperty('--x', `${x * 5}px`);
-    particle.style.setProperty('--y', `${-y * 5}px`); // -y để hướng lên
-
-    container.appendChild(particle);
-
-    setTimeout(() => {
-      particle.remove();
-    }, 1000);
-  }
-}
-
-// Click để tạo trái tim
-document.addEventListener('click', (e) => {
-  createHeart(e.clientX - 10, e.clientY - 10);
-});
+animate();
