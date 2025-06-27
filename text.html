@@ -3,18 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>I Love You Animation</title>
-  <link rel="stylesheet" href="css/text.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+  <title>Exploding Text to Heart</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
+  <style src="css/text.css"></style>
 </head>
 <body>
-  <div class="overlay"></div>
   <div class="container">
     <div class="bar left-bar"></div>
     <div class="text" id="love-text">I love you</div>
     <div class="bar right-bar"></div>
   </div>
-  <script src="js/text.js"></script>
+  <!-- SVG trái tim ẩn, sẽ kích hoạt animation sau -->
+  <svg id="heart-svg" viewBox="0 0 32 29.6">
+    <path class="heart" d="M23.6,0c-2.8,0-5.2,1.5-6.6,3.8C15.6,1.5,13.2,0,10.4,0C4.6,0,0,4.6,0,10.4 c0,6.9,5.7,9.9,11.4,15.2l5.2,4.9l5.2-4.9C26.3,20.3,32,17.2,32,10.4C32,4.6,27.4,0,23.6,0z"/>
+  </svg>
+  <audio id="pop-sound" src="https://freesound.org/data/previews/256/256113_3263906-lq.mp3" preload="auto"></audio>
+  <script src ="js/text.js"></script>
 </body>
 </html>
