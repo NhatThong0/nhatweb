@@ -10,26 +10,37 @@ body {
 }
 
 .container {
+  position: relative;
   display: flex;
   align-items: center;
-  position: relative;
+  justify-content: center;
 }
 
 .bar {
-  width: 8px;
-  height: 100px;
+  width: 60px;
+  height: 8px;
   background: white;
   border-radius: 10px;
-  transform-origin: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 0 10px white;
 }
 
-.left-bar { margin-right: 12px; }
-.right-bar { margin-left: 12px; }
+.left-bar {
+  left: -100px;
+}
+
+.right-bar {
+  right: -100px;
+}
 
 .text {
+  position: relative;
   font-size: 4vw;
   min-width: 120px;
   color: white;
   text-align: center;
   white-space: nowrap;
+  z-index: 1;
 }
