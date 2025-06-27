@@ -1,48 +1,42 @@
-const textElement = document.getElementById("love-text");
-const leftBar = document.querySelector(".left-bar");
-const rightBar = document.querySelector(".right-bar");
+const textEl = document.getElementById('love-text');
+const leftBar = document.querySelector('.left-bar');
+const rightBar = document.querySelector('.right-bar');
+const popSound = document.getElementById('pop-sound');
+const heartSvg = document.getElementById('heart-svg');
+const heartPath = heartSvg.querySelector('.heart');
 
 const stages = [
-  { text: "I love you", barHeight: 180 },
-  { text: "I ❤️ you", barHeight: 120 },
-  { text: "I ❤️ u", barHeight: 80 },
-  { text: "💖", barHeight: 40 }
+  { from:'I love you', to:'I ❤️ you' },
+  { from:'I ❤️ you', to:'I ❤️ u' },
+  { from:'I ❤️ u', to:null }
 ];
 
-let currentStage = 0;
+let tl = gsap.timeline({ defaults:{ease:'power2.inOut'} });
+let delay = 1;
 
-function nextStage() {
-  const stage = stages[currentStage];
-  textElement.classList.remove("heartbeat");
+stages.forEach((st,i)=>{
+  tl.to([leftBar,rightBar], {duration:0.8, height:200}, delay);
+  tl.call(()=>popSound.currentTime=0 && popSound.play(), null, `>${delay}`);
+  tl.to(textEl, {duration:0.4, scale:0.8, opacity:0}, `>${delay+0.5}`);
+  if(st.to){
+    tl.call(()=>textEl.textContent=st.to, null, `>${delay+0.9}`);
+    tl.to(textEl, {duration:0.6, scale:1.2, opacity:1}, `>${delay+0.9}`);
+    tl.call(()=>popSound.currentTime=0 && popSound.play(), null, `>${delay+0.9}`);
+    tl.to([leftBar,rightBar],{duration:0.8,height:100,ease:'bounce.out'},`>${delay+1.5}`);
+  } else {
+    tl.call(()=>textEl.style.opacity=0, null, `>${delay+0.5}`);
+    tl.to([leftBar,rightBar],{duration:0.8,height:100,ease:'bounce.out'},`>${delay+1}`);
+    tl.call(()=>{
+      heartSvg.style.opacity=1;
+      gsap.fromTo(heartPath,{scale:0},{duration:0.6, scale:1.2, transformOrigin:'center'});
+      gsap.to(heartSvg,{duration:1, repeat:-1, yoyo:true, scale:1.1});
+      popSound.currentTime=0; popSound.play();
+    }, null, `>${delay+1}`);
+  }
+  delay += 3;
+});
 
-  // Ẩn chữ trước
-  textElement.style.opacity = 0;
-  textElement.style.transform = "scale(0.8)";
-  textElement.style.filter = "blur(4px)";
-
-  setTimeout(() => {
-    textElement.textContent = stage.text;
-    leftBar.style.height = `${stage.barHeight}px`;
-    rightBar.style.height = `${stage.barHeight}px`;
-
-    if (stage.text === "💖") {
-      textElement.classList.add("heartbeat");
-    }
-
-    textElement.style.opacity = 1;
-    textElement.style.transform = "scale(1)";
-    textElement.style.filter = "blur(0)";
-
-    currentStage++;
-    if (currentStage < stages.length) {
-      setTimeout(nextStage, 2500);
-    } else {
-      setTimeout(() => {
-        currentStage = 0;
-        nextStage();
-      }, 5000);
-    }
-  }, 700);
-}
-
-setTimeout(nextStage, 1000);
+tl.to({}, {duration:delay+1, onComplete: ()=>tl.restart()});
+window.addEventListener('resize', ()=>{
+  textEl.style.fontSize=`${8 * window.innerWidth/100}px`;
+});
