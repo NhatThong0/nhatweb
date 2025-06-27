@@ -11,47 +11,49 @@ const stages = [
 let tl = gsap.timeline({ defaults: { ease: "power2.inOut" } });
 let delay = 1;
 
-// Khởi tạo từng giai đoạn
 stages.forEach((st, i) => {
   tl.addLabel(st.phase, delay);
 
-  // 1. Thanh ép vào giữa
-  tl.to([leftBar, rightBar], {
-    duration: 0.8,
-    height: 200,           // tăng chiều dài để ép mạnh hơn
-    y: 0,
+  // 1. Di chuyển thanh vào trong
+  tl.to(leftBar, {
+    duration: 0.6,
+    x: 120
+  }, st.phase);
+  tl.to(rightBar, {
+    duration: 0.6,
+    x: -120
   }, st.phase);
 
-  // 2. Từ cần "nổ" scale + biến mất
-  tl.fromTo(textEl, {
-    text: st.from
-  }, {
+  // 2. Chữ mờ dần, scale nhỏ (ép nổ)
+  tl.to(textEl, {
     duration: 0.4,
+    opacity: 0,
     scale: 0.8,
-    opacity: 0,
+    filter: "blur(6px)",
     onStart() { textEl.textContent = st.from; }
-  }, `>${st.phase}+=0.8`);
+  }, `>${st.phase}+=0.4`);
 
-  // 3. Từ mới xuất hiện + "pop"
-  tl.fromTo(textEl, {
-    opacity: 0,
-    scale: 1.3
-  }, {
-    duration: 0.6,
+  // 3. Chữ mới hiện ra, pop nhẹ
+  tl.to(textEl, {
+    duration: 0.5,
     opacity: 1,
     scale: 1,
+    filter: "blur(0px)",
     onStart() { textEl.textContent = st.to; }
-  }, `>${st.phase}+=1.2`);
+  }, `>${st.phase}+=0.9`);
 
-  // 4. Thanh hồi vị với bounce nhẹ
-  tl.to([leftBar, rightBar], {
-    duration: 0.8,
-    height: 100,
-    ease: "bounce.out"
-  }, `>${st.phase}+=1.5`);
+  // 4. Di chuyển thanh về vị trí cũ
+  tl.to(leftBar, {
+    duration: 0.6,
+    x: 0
+  }, `>${st.phase}+=1.4`);
+  tl.to(rightBar, {
+    duration: 0.6,
+    x: 0
+  }, `>${st.phase}+=1.4`);
 
-  delay += 3; // cách nhau 3 giây
+  delay += 3.5;
 });
 
-// Lặp lại sau chu kỳ
-tl.to({}, { duration: delay + 1, onComplete: () => tl.restart() });
+// Lặp lại chu kỳ
+tl.to({}, { duration: 1, onComplete: () => tl.restart() });
