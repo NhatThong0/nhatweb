@@ -12,35 +12,34 @@ body {
 .container {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 
 .bar {
-  width: 60px;
+  width: 120px;
   height: 8px;
   background: white;
   border-radius: 10px;
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translateX(-50%);
   box-shadow: 0 0 10px white;
 }
 
-.left-bar {
-  left: -100px;
+.top-bar {
+  top: -100px; /* bắt đầu bên trên */
 }
 
-.right-bar {
-  right: -100px;
+.bottom-bar {
+  bottom: -100px; /* bắt đầu bên dưới */
 }
 
 .text {
   position: relative;
   font-size: 4vw;
-  min-width: 120px;
   color: white;
-  text-align: center;
   white-space: nowrap;
   z-index: 1;
+  text-align: center;
 }
